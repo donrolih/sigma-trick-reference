@@ -1,0 +1,63 @@
+#!/usr/bin/env julia
+# Don Rolih, don.rolih@ijs.si, February 2023
+
+# read parameters
+Nz = readchomp(`getNz`)
+min = readchomp(`getparam broaden_min param.loop`)
+max = readchomp(`getparam broaden_max param.loop`)
+ratio = readchomp(`getparam broaden_ratio param.loop`)
+T = readchomp(`getparam T param.loop`)
+alpha = readchomp(`getparam broaden_alpha param.loop`)
+gamma = readchomp(`getparam broaden_gamma param.loop`)
+
+# construct the spectral function names
+prefix = "spec_FDM_dens_"
+
+opd_names = ["A_d"]
+selfopd_names = ["self_d"]
+
+spec_names = []
+
+for op1 in opd_names
+    for op2 in opd_names
+        spec_name = op1 * "-" * op2
+        push!(spec_names, spec_name)
+    end
+end
+
+for op1 in selfopd_names
+    for op2 in opd_names
+        spec_name = op1 * "-" * op2
+        push!(spec_names, spec_name)
+    end
+end
+
+for op1 in selfopd_names
+    for op2 in opd_names
+        spec_name = op2 * "-" * op1
+        push!(spec_names, spec_name)
+    end
+end
+
+for op1 in selfopd_names
+    for op2 in selfopd_names
+        spec_name = op2 * "-" * op1
+        push!(spec_names, spec_name)
+    end
+end
+
+# do the broadening
+
+for spec in spec_names
+    name = prefix * spec
+    name_bin = name * ".bin"
+    run(`broaden -x $gamma -m $min -M $max -r $ratio   $name_bin $Nz $alpha $T 1e-99`)
+    # real part
+    run(`kk spec.dat spec-re.dat`)
+    name_dat = name * ".dat"
+    name_dat_re = name * "-re" * ".dat"
+    dir = "spectral_Nz" * Nz
+    run(`mkdir -p $dir`)
+    run(`mv spec.dat $dir/$name_dat`)
+    run(`mv spec-re.dat $dir/$name_dat_re`)
+end

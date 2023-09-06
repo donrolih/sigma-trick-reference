@@ -1,0 +1,5 @@
+#!/bin/bash
+./average
+./mkDelta
+./proc_custom
+julia --project sigmatrick-new.jl

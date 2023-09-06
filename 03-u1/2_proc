@@ -1,0 +1,8 @@
+#!/bin/bash
+ml purge 
+ml Julia nrg/2023.05
+
+./average
+./mkDelta
+./proc_custom
+julia --project sigmatrick-new.jl

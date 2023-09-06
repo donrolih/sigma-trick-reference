@@ -1,0 +1,43 @@
+#!/usr/bin/env looper
+#PRELUDE: $Nz=64;
+#AUTOLOOP: ${NRGPREFIXINIT} nrginit ; ${NRGPREFIX} nrgrun
+#OVERWRITE
+
+[extra]
+B=0.01
+
+[param]
+symtype=QSZ
+model=../model.m
+
+U=0.5
+Gamma=0.03
+delta=0.1
+
+Lambda=2.0
+Tmin=1e-8
+keepmin=200
+keepenergy=10.0
+keep=10000
+
+discretization=Z
+@$z = 1/$Nz; $z <= 1.00001; $z += 1/$Nz
+z=$z
+
+ops=A_d self_d n_d SZd SigmaHd SigmaHd-u SigmaHd-d
+specd=A_d-A_d-u A_d-A_d-d self_d-A_d-u self_d-A_d-d self_d-self_d-u self_d-self_d-d A_d-self_d-u A_d-self_d-d
+
+fdm=true
+
+# Broadening is performed by an external tool
+broaden_max=2
+broaden_ratio=1.01
+broaden_min=1e-6
+broaden_alpha=0.6
+broaden_gamma=0.2
+bins=300
+broaden=false
+savebins=true
+
+
+T=1e-10
