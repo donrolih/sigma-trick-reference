@@ -1,0 +1,42 @@
+#!/usr/bin/env looper
+#PRELUDE: $Nz=1;
+#AUTOLOOP: ${NRGPREFIXINIT} nrginit ; ${NRGPREFIX} nrgrun
+#OVERWRITE
+
+[param]
+symtype=SPSU2
+model=../model.m
+
+U=0.5
+Gamma=0.03
+delta=0.0
+
+bcsgap=0.02
+
+Lambda=2.0
+Tmin=1e-8
+keepmin=200
+keepenergy=10.0
+keep=10000
+
+discretization=Z
+@$z = 1/$Nz; $z <= 1.00001; $z += 1/$Nz
+z=$z
+
+ops=A_d self_d Ac_d selfc_d n_d n_d^2 pair_d SigmaHd11 SigmaHd12 SigmaHd21 SigmaHd22 n_d_u n_d_d SigmaHdAvg11 SigmaHdAvg12 SigmaHdAvg21 SigmaHdAvg22
+specd=A_d-A_d Ac_d-A_d A_d-Ac_d Ac_d-Ac_d self_d-A_d selfc_d-A_d selfc_d-Ac_d self_d-Ac_d A_d-self_d Ac_d-self_d A_d-selfc_d Ac_d-selfc_d self_d-self_d self_d-selfc_d selfc_d-self_d selfc_d-selfc_d
+
+fdm=true
+
+# Broadening is performed by an external tool
+broaden_max=2
+broaden_ratio=1.01
+broaden_min=1e-6
+broaden_alpha=0.6
+broaden_gamma=0.2
+bins=300
+broaden=false
+savebins=true
+
+
+T=1e-10

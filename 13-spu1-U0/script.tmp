@@ -1,0 +1,20 @@
+
+Delta = 0.0002;
+gamma = 0.01;
+
+(* finite flat band *)
+
+(* NOTE THE BCS GAP PHASE CONVENTION, i.e., THE MINUS SIGN! *)
+h[z_] := {{-((z ArcCot[Sqrt[-z^2 + Delta^2]])/Sqrt[-z^2 + Delta^2]), 
+(-Delta ArcCot[Sqrt[-z^2 + Delta^2]])/Sqrt[-z^2 + Delta^2]}, 
+{(-Delta ArcCot[Sqrt[-z^2 + Delta^2]])/Sqrt[-z^2 + Delta^2], 
+-((z ArcCot[Sqrt[-z^2 + Delta^2]])/Sqrt[-z^2 + Delta^2])}};
+
+l = Import["Delta11.dat.flat", "Table"];
+f = Map[{First[#], -(2/Pi) gamma Im[ h[First[#]+10^-10 I][[1,1]] ]}&, l];
+Export["Delta11.dat", f];
+
+l = Import["Delta12.dat.flat", "Table"];
+f = Map[{First[#], -(2/Pi) gamma Im[ h[First[#]+10^-10 I][[1,2]] ]}&, l];
+Export["Delta12.dat", f];
+

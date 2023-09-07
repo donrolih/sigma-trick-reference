@@ -1,0 +1,3 @@
+#!/bin/sh
+gatherlastlines custom
+columnavg_comment custom >custom.avg

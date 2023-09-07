@@ -1,0 +1,14 @@
+#!/bin/bash
+ml purge 
+ml Julia nrg/2023.05
+
+./average
+./mkDelta
+
+cp Delta11.dat Delta22.dat
+cp Delta11-re.dat Delta22-re.dat
+cp Delta12.dat Delta21.dat
+cp Delta12-re.dat Delta21-re.dat
+
+./proc_custom
+julia --project sigmatrick-new.jl

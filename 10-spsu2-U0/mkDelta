@@ -1,0 +1,84 @@
+#!/usr/bin/env perl
+# Generate delta.dat for flat bands with constant BCS gap. 
+# The same mesh is used as for spectral functions.
+# Rok Zitko, rok.zitko@ijs.si, June 2012
+# Version 2
+
+use warnings;
+use strict;
+
+my $max = `getparam broaden_max param.loop`;
+my $ratio = `getparam broaden_ratio param.loop`;
+my $min = `getparam broaden_min param.loop`;
+chomp ($max, $ratio, $min);
+
+my $Gamma = `getparam Gamma param.loop`;
+my $bcsgap = `getparam bcsgap param.loop`;
+chomp($Gamma, $bcsgap);
+
+{
+my @l = ();
+for (my $x = $max; $x >= $min; $x /= $ratio) {
+    my $xpos = $x;
+    my $ypos = (abs($xpos) < 1.0 ? Gamma11($xpos) : 0.0);
+    my $xneg = -$x;
+    my $yneg = (abs($xneg) < 1.0 ? Gamma11($xneg) : 0.0);
+    push(@l, [$xpos, $ypos]);
+    push(@l, [$xneg, $yneg]);
+}
+
+my @sorted = sort { $a->[0] <=> $b->[0] } @l;
+
+my $fn = "Delta11.dat";
+open(OUT, ">$fn") or die "Can't open $fn: $!. Stopped";
+foreach (@sorted) {
+    my ($x, $y) = @$_;
+    print OUT "$x $y\n";
+}
+close(OUT);
+}
+
+{
+my @l = ();
+for (my $x = $max; $x >= $min; $x /= $ratio) {
+    my $xpos = $x;
+    my $ypos = (abs($xpos) < 1.0 ? Gamma12($xpos) : 0.0);
+    my $xneg = -$x;
+    my $yneg = (abs($xneg) < 1.0 ? Gamma12($xneg) : 0.0);
+    push(@l, [$xpos, $ypos]);
+    push(@l, [$xneg, $yneg]);
+}
+
+my @sorted = sort { $a->[0] <=> $b->[0] } @l;
+
+my $fn = "Delta12.dat";
+open(OUT, ">$fn") or die "Can't open $fn: $!. Stopped";
+foreach (@sorted) {
+    my ($x, $y) = @$_;
+    print OUT "$x $y\n";
+}
+close(OUT);
+}
+
+# Hybridisation function
+system "kk Delta11.dat Delta11-re.dat";
+system "kk Delta12.dat Delta12-re.dat";
+
+sub sign 
+{
+   return (shift >= 0.0 ? +1.0 : -1.0);
+}
+
+sub Gamma11
+{
+    my $x = shift;
+    my $g = (abs($x) > $bcsgap ? $Gamma * $x/sqrt($x**2 - $bcsgap**2) * sign($x) : 0);
+    return $g;
+}
+
+sub Gamma12
+{
+    my $x = shift;
+    my $g = (abs($x) > $bcsgap ? $Gamma * $bcsgap/sqrt($x**2 - $bcsgap**2) * sign($x) : 0);
+    return $g;
+}

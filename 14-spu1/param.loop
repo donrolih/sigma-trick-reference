@@ -1,0 +1,47 @@
+#!/usr/bin/env looper
+#PRELUDE: $Nz=1;
+#AUTOLOOP: ${NRGPREFIXINIT} nrginit ; ${NRGPREFIX} nrgrun
+#OVERWRITE
+
+[extra]
+B=0.07
+
+[param]
+symtype=SPU1
+model=../model.m
+
+U=0.5
+Gamma=0.01
+delta=0.1
+
+bcsgap=0.0002
+
+Lambda=2.0
+Tmin=1e-8
+keepmin=200
+keepenergy=10.0
+keep=10000
+
+discretization=Z
+@$z = 1/$Nz; $z <= 1.00001; $z += 1/$Nz
+z=$z
+!print "$cnt $z\n";
+
+ops=A_d self_d Ac_d selfc_d n_d n_d^2 pair_d SZd SigmaHd11-u SigmaHd12-u SigmaHd21-u SigmaHd22-u SigmaHd11-d SigmaHd12-d SigmaHd21-d SigmaHd22-d n_d_u n_d_d
+specd=A_d-A_d-u self_d-A_d-u Ac_d-A_d-u selfc_d-A_d-u A_d-Ac_d-u self_d-Ac_d-u Ac_d-Ac_d-u selfc_d-Ac_d-u A_d-A_d-d self_d-A_d-d Ac_d-A_d-d selfc_d-A_d-d A_d-Ac_d-d self_d-Ac_d-d Ac_d-Ac_d-d selfc_d-Ac_d-d A_d-self_d-u Ac_d-self_d-u A_d-selfc_d-u Ac_d-selfc_d-u self_d-self_d-u self_d-selfc_d-u selfc_d-self_d-u selfc_d-selfc_d-u A_d-self_d-d Ac_d-self_d-d A_d-selfc_d-d Ac_d-selfc_d-d self_d-self_d-d self_d-selfc_d-d selfc_d-self_d-d selfc_d-selfc_d-d
+
+fdm=true
+
+# Broadening is performed by an external tool
+broaden_max=2
+broaden_ratio=1.01
+broaden_min=1e-6
+broaden_alpha=0.6
+broaden_gamma=0.2
+bins=300
+broaden=false
+savebins=true
+
+
+T=1e-10
+
