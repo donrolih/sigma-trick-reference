@@ -94,7 +94,7 @@ open("sigma-old.dat", "w") do io
 end
 
 open("aw-old.dat", "w") do io
-    writedlm(io, [ωs awold])
+    writedlm(io, [real.(ωs) real.(awold)])
 end
 
 open("sigma.dat", "w") do io
@@ -102,5 +102,5 @@ open("sigma.dat", "w") do io
 end
 
 open("aw.dat", "w") do io
-    writedlm(io, [ωs aw])
+    writedlm(io, [real.(ωs) real.(aw)])
 end

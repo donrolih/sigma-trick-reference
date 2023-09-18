@@ -97,7 +97,7 @@ for spin in ["u", "d"]
     end
 
     open("aw-old-" * spin * ".dat", "w") do io
-        writedlm(io, [ωs awold])
+        writedlm(io, [real.(ωs) real.(awold)])
     end
 
     open("sigma-" * spin * ".dat", "w") do io
@@ -105,7 +105,7 @@ for spin in ["u", "d"]
     end
 
     open("aw-" * spin * ".dat", "w") do io
-        writedlm(io, [ωs aw])
+        writedlm(io, [real.(ωs) real.(aw)])
     end
 
 end
