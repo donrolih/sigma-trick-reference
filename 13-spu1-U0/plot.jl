@@ -45,13 +45,13 @@ display(fig)
 # Spin UP
 fig, ax = pyplot.subplots(ncols=2, figsize=(9,5))
 
-label_G11 = L"G_{11}= \langle\langle d_\uparrow; d_\uparrow^\dagger \rangle\rangle_z"
+label_G11 = L"A_{11}= -\frac{1}{\pi}\mathrm{Im} \langle\langle d_\uparrow; d_\uparrow^\dagger \rangle\rangle_z"
 
-label_G31 = L"G_{31}= \langle\langle -d_\downarrow^\dagger; d_\uparrow^\dagger \rangle\rangle_z"
+label_G31 = L"A_{31}= -\frac{1}{\pi}\mathrm{Im}\langle\langle -d_\downarrow^\dagger; d_\uparrow^\dagger \rangle\rangle_z"
 
-label_G13 = L"G_{13}= \langle\langle d_\uparrow; -d_\downarrow \rangle\rangle_z"
+label_G13 = L"A_{13}= -\frac{1}{\pi}\mathrm{Im}\langle\langle d_\uparrow; -d_\downarrow \rangle\rangle_z"
 
-label_G33 = L"G_{33}= \langle\langle d_\downarrow^\dagger; d_\downarrow \rangle\rangle_z"
+label_G33 = L"A_{33}= -\frac{1}{\pi}\mathrm{Im}\langle\langle d_\downarrow^\dagger; d_\downarrow \rangle\rangle_z"
 
 ax[0].plot(ωs, aw_u[:, 2], label=label_G11)
 ax[0].plot(ωs, aw_u[:, 5], label=label_G33)
@@ -67,17 +67,18 @@ ax[0].legend(loc="upper left")
 ax[1].legend()
 fig.tight_layout()
 display(fig)
+savefig("fig-aw-u.pdf")
 ##
 # Spin DOWN
 fig, ax = pyplot.subplots(ncols=2, figsize=(9,5))
 
-label_G22 = L"G_{22}= \langle\langle d_\downarrow; d_\downarrow^\dagger \rangle\rangle_z"
+label_G22 = L"A_{22}= -\frac{1}{\pi}\mathrm{Im}\langle\langle d_\downarrow; d_\downarrow^\dagger \rangle\rangle_z"
 
-label_G42 = L"G_{42}= \langle\langle d_\uparrow^\dagger; d_\downarrow^\dagger \rangle\rangle_z"
+label_G42 = L"A_{42}= -\frac{1}{\pi}\mathrm{Im}\langle\langle d_\uparrow^\dagger; d_\downarrow^\dagger \rangle\rangle_z"
 
-label_G24 = L"G_{24}= \langle\langle d_\downarrow; d_\uparrow \rangle\rangle_z"
+label_G24 = L"A_{24}= -\frac{1}{\pi}\mathrm{Im}\langle\langle d_\downarrow; d_\uparrow \rangle\rangle_z"
 
-label_G44 = L"G_{44}= \langle\langle d_\uparrow^\dagger; d_\uparrow \rangle\rangle_z"
+label_G44 = L"A_{44}= -\frac{1}{\pi}\mathrm{Im}\langle\langle d_\uparrow^\dagger; d_\uparrow \rangle\rangle_z"
 
 ax[0].plot(ωs, aw_d[:, 2], label=label_G22)
 ax[0].plot(ωs, aw_d[:, 5], label=label_G44)
@@ -93,3 +94,5 @@ ax[0].legend(loc="upper left")
 ax[1].legend()
 fig.tight_layout()
 display(fig)
+savefig("fig-aw-d.pdf")
+##
